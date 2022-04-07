@@ -7,9 +7,11 @@ import itsdevle.EsameFinale.model.ModelProdotto;
 import itsdevle.EsameFinale.repository.ProdottoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -72,5 +74,20 @@ public class ProdottoRestController {
         logger.warn(conFormat);
         return conFormat;
     }
+    @GetMapping("/prodotto/nome")
+    public List<ModelProdotto> readWithnome(@RequestParam String nome) {
+
+        return repository.findAllBynome(nome);
+    }
+
+    @GetMapping("/prodotto/quantita")
+    public List<ModelProdotto> readWithquantita(@RequestParam int quantita) {
+        return repository.findAllByquantita(quantita);
+     }
+        @GetMapping("/prodotto/ricercadata")
+        public List<ModelProdotto> ricercadata(@RequestParam(name = "data") @DateTimeFormat(pattern = "dd-MM-yyyy")
+                                                       Date data) {
+            return repository.findBydatadiacquisto(data);
+        }
 
 }
